@@ -1,8 +1,8 @@
 export default function Header() {
   return (
-    <header>
+    <header className='flex items-center justify-between px-xl h-7xl'>
       {/* Logo */}
-      <div>
+      <div className='flex gap-xs'>
         <svg
           width='24'
           height='22'
@@ -18,29 +18,31 @@ export default function Header() {
         <span>Movie</span>
       </div>
 
-      {/* Search Icon */}
-      <svg
-        width='20'
-        height='20'
-        viewBox='0 0 20 20'
-        fill='none'
-        xmlns='http://www.w3.org/2000/svg'
-      >
-        <path
-          d='M18.75 18.75L14.75 14.75M16.75 8.75C16.75 10.8717 15.9071 12.9066 14.4069 14.4069C12.9066 15.9071 10.8717 16.75 8.75 16.75C6.62827 16.75 4.59344 15.9071 3.09315 14.4069C1.59285 12.9066 0.75 10.8717 0.75 8.75C0.75 6.62827 1.59285 4.59344 3.09315 3.09315C4.59344 1.59285 6.62827 0.75 8.75 0.75C10.8717 0.75 12.9066 1.59285 14.4069 3.09315C15.9071 4.59344 16.75 6.62827 16.75 8.75Z'
-          stroke='#FDFDFD'
-          stroke-width='1.5'
-          stroke-miterlimit='10'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-        />
-      </svg>
+      <div className='flex gap-3xl items-center'>
+        {/* Search Icon */}
+        <svg
+          width='20'
+          height='20'
+          viewBox='0 0 20 20'
+          fill='none'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <path
+            d='M18.75 18.75L14.75 14.75M16.75 8.75C16.75 10.8717 15.9071 12.9066 14.4069 14.4069C12.9066 15.9071 10.8717 16.75 8.75 16.75C6.62827 16.75 4.59344 15.9071 3.09315 14.4069C1.59285 12.9066 0.75 10.8717 0.75 8.75C0.75 6.62827 1.59285 4.59344 3.09315 3.09315C4.59344 1.59285 6.62827 0.75 8.75 0.75C10.8717 0.75 12.9066 1.59285 14.4069 3.09315C15.9071 4.59344 16.75 6.62827 16.75 8.75Z'
+            stroke='#FDFDFD'
+            strokeWidth='1.5'
+            strokeMiterlimit='10'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+          />
+        </svg>
 
-      {/* Hamburger button */}
-      <div>
-        <span></span>
-        <span></span>
-        <span></span>
+        {/* Hamburger button */}
+        <div className='hamburger-button flex flex-col  px-[2.25px] py-[6.25px] gap-sm'>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     </header>
   );
