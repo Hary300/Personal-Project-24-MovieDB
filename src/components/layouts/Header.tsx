@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import Logo from '../shared/Logo';
 import Nav from '../shared/Nav';
 
@@ -7,6 +8,23 @@ type HeaderProps = {
 };
 
 export default function Header({ showMenu, setShowMenu }: HeaderProps) {
+  const [showSearch, setShowSearch] = useState(false);
+  const searchRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleClick(event: MouseEvent) {
+      const target = event.target as Node;
+      if (searchRef.current && !searchRef.current.contains(target)) {
+        setShowSearch(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClick);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, []);
+
   const searchIcon = (
     <svg
       width='20'
@@ -29,7 +47,7 @@ export default function Header({ showMenu, setShowMenu }: HeaderProps) {
   return (
     <>
       <header
-        className={`${showMenu ? 'static' : 'absolute'} container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl z-5  ${showMenu ? 'bg-black' : ''} `}
+        className={`${showMenu ? 'static' : 'absolute'} container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl z-5  ${showMenu ? 'bg-black' : ''}`}
       >
         <div className='flex gap-8xl'>
           <Logo />
@@ -38,15 +56,24 @@ export default function Header({ showMenu, setShowMenu }: HeaderProps) {
 
         <div className='flex gap-3xl items-center'>
           {/* Search Icon */}
-          <div className='lg:hidden'>{searchIcon}</div>
-          <div className='hidden relative lg:flex border bg-neutral-950/60 border-neutral-800 backdrop-blur-2xl rounded-2xl '>
-            <input
-              type='text'
-              placeholder='Search Movie'
-              className='size-full py-md pl-12 focus:outline-0'
-            />
-            <div className='absolute text-neutral-500 top-1/2 -translate-y-1/2 left-4'>
+          <div className='flex items-center' ref={searchRef}>
+            <button
+              className={`${showSearch ? 'hidden' : ''} cursor-pointer lg:hidden`}
+              onClick={() => setShowSearch((prev) => !prev)}
+            >
               {searchIcon}
+            </button>
+            <div
+              className={`${showSearch ? 'flex translate-x-4' : 'hidden'}  lg:flex border bg-neutral-950/60 border-neutral-800 backdrop-blur-2xl rounded-2xl`}
+            >
+              <div className='absolute text-neutral-500 top-1/2 -translate-y-1/2 left-4'>
+                {searchIcon}
+              </div>
+              <input
+                type='text'
+                placeholder='Search Movie'
+                className='size-full text-xs py-md pl-12 focus:outline-0'
+              />
             </div>
           </div>
 

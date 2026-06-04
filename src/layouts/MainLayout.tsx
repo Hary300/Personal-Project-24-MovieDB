@@ -24,6 +24,7 @@ export default function MainLayout({ hero, children }: MainLayoutProps) {
       bodyClass.remove('overflow-hidden');
     };
   }, [showMenu]);
+
   return (
     <div className='relative container m-auto overflow-hidden'>
       <Header showMenu={showMenu} setShowMenu={setShowMenu} />

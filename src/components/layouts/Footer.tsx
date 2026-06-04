@@ -2,7 +2,7 @@ import Logo from '../shared/Logo';
 
 export default function Footer() {
   return (
-    <footer className='container md:items-center m-auto flex flex-col md:flex-row md:justify-between h-30 px-xl md:px-7xl xl:px-11xl gap-md border-t border-neutral-800'>
+    <footer className='container justify-center md:items-center m-auto flex flex-col md:flex-row md:justify-between h-30 px-xl md:px-7xl xl:px-11xl gap-md border-t border-neutral-800'>
       <Logo />
 
       <p className='text-neutral-600 text-xs'>
