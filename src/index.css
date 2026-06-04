@@ -163,5 +163,5 @@ body {
 }
 
 .hamburger-button span {
-  @apply w-6 h-0.5 bg-neutral-25 transition-all duration-300 ease-in-out;
+  @apply w-6 h-0.5 bg-neutral-25 transition-all duration-200 ease-in-out;
 }

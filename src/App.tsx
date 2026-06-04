@@ -1,9 +1,14 @@
+import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
+import Favorite from './pages/Favorites';
 
 function App() {
   return (
     <>
-      <Home />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/favorite' element={<Favorite />} />
+      </Routes>
     </>
   );
 }

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 type MobileNav = {
   show: boolean;
 };
@@ -9,10 +11,10 @@ export default function MobileNav({ show }: MobileNav) {
     >
       <ul className='flex flex-col gap-xl px-4'>
         <li>
-          <a href='#'>Home</a>
+          <Link to='/'>Home</Link>
         </li>
         <li>
-          <a href='#'>Favorite</a>
+          <Link to='/favorite'>Favorite</Link>
         </li>
       </ul>
     </nav>

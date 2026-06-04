@@ -3,11 +3,16 @@ import Logo from '../shared/Logo';
 import Nav from '../shared/Nav';
 
 type HeaderProps = {
+  isStatic: boolean;
   showMenu: boolean;
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Header({ showMenu, setShowMenu }: HeaderProps) {
+export default function Header({
+  isStatic,
+  showMenu,
+  setShowMenu,
+}: HeaderProps) {
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,7 +52,7 @@ export default function Header({ showMenu, setShowMenu }: HeaderProps) {
   return (
     <>
       <header
-        className={`${showMenu ? 'static' : 'absolute'} container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl z-5  ${showMenu ? 'bg-black' : ''}`}
+        className={`${showMenu || isStatic ? 'static' : 'absolute'} container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl z-5  ${showMenu ? 'bg-black' : ''}`}
       >
         <div className='flex gap-8xl'>
           <Logo />

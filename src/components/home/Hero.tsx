@@ -1,12 +1,41 @@
-import HeroImage from '../../assets/image 1.png';
+// import HeroImage from '../../assets/image 1.png';
+import useFetch from '../../hooks/useFetch';
 import WatchTrailerButton from '../shared/WatchTrailerButton';
 
+const IMAGE_BASE_URL = 'https://api.themoviedb.org/3/movie/now_playing';
+
+type Movie = {
+  backdrop_path: string;
+  title: string;
+  overview: string;
+};
+
+const number = Math.random();
+
 export default function Hero() {
+  const { data, loading, error } = useFetch<Movie[]>(IMAGE_BASE_URL);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  if (!data) return null;
+
+  const randomIndex = Math.floor(number * data.length);
+
+  const base_url = 'https://image.tmdb.org/t/p/';
+  const backdrop_sizez = 'w1280';
+  const backdrop_path = data[randomIndex].backdrop_path;
+
   return (
     <section className='container md:h-auto md:relative overflow-hidden'>
       <div className='relative flex h-85 md:h-auto overflow-hidden'>
         <img
-          src={HeroImage}
+          src={`${base_url}${backdrop_sizez}${backdrop_path}`}
           alt=''
           className='w-full h-full  object-cover object-center'
         />
@@ -16,12 +45,10 @@ export default function Hero() {
       <div className='relative -mt-11xl flex flex-col gap-3xl px-4 md:px-0 md:mt-0 md:absolute md:left-7xl md:top-40 lg:top-50 xl:top-65 md:max-w-158 xl:left-11xl'>
         <div className='text flex flex-col gap-sm'>
           <h1 className='text-display-xs lg:text-display-2xl font-bold'>
-            The Gorge
+            {data[randomIndex].title}
           </h1>
           <p className='text-sm lg:text-md font-normal text-neutral-400 leading-7'>
-            Two highly trained operatives grow close from a distance after being
-            sent to guard opposite sides of a mysterious gorge. When an evil
-            below emerges, they must work together to survive what lies within.
+            {data[randomIndex].overview}
           </p>
         </div>
 

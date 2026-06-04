@@ -5,11 +5,16 @@ import Header from '../components/layouts/Header';
 import MobileNav from '../components/shared/MobileNav';
 
 type MainLayoutProps = {
+  isStatic: boolean;
   hero: boolean;
   children: React.ReactNode;
 };
 
-export default function MainLayout({ hero, children }: MainLayoutProps) {
+export default function MainLayout({
+  isStatic,
+  hero,
+  children,
+}: MainLayoutProps) {
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
@@ -27,7 +32,11 @@ export default function MainLayout({ hero, children }: MainLayoutProps) {
 
   return (
     <div className='relative container m-auto overflow-hidden'>
-      <Header showMenu={showMenu} setShowMenu={setShowMenu} />
+      <Header
+        isStatic={isStatic}
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+      />
       <MobileNav show={showMenu} />
       {hero && <Hero />}
       <main className='container px-xl m-auto py-3xl md:px-7xl xl:px-11xl'>
