@@ -1,6 +1,8 @@
 // import HeroImage from '../../assets/image 1.png';
 import useFetch from '../../hooks/useFetch';
-import WatchTrailerButton from '../shared/WatchTrailerButton';
+import Button from '../shared/Button';
+import ErrorState from '../shared/ErrorState';
+import LoadingState from '../shared/LoadingState';
 
 const randomPage = Math.floor(Math.random() * 10) + 1;
 const IMAGE_BASE_URL = `https://api.themoviedb.org/3/movie/now_playing?page=${randomPage}`;
@@ -20,23 +22,10 @@ const number = Math.random();
 export default function Hero() {
   const { data, loading, error } = useFetch<DataResult>(IMAGE_BASE_URL);
 
-  if (loading) {
-    return (
-      <div className='h-100 flex justify-center items-center'>
-        <p className='text-lg md:text-2xl'>Loading...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className='h-100 flex justify-center items-center'>
-        <p className='text-lg md:text-2xl'>{error}</p>
-      </div>
-    );
-  }
-
+  if (loading) return <LoadingState />;
+  if (error) return <ErrorState error={error} />;
   if (!data) return null;
+
   const dataResult = data.results;
 
   const randomIndex = Math.floor(number * dataResult.length);
@@ -67,11 +56,8 @@ export default function Hero() {
         </div>
 
         <div className='button flex flex-col gap-xl md:flex-row md:max-w-90 lg:max-w-100 xl:max-w-125'>
-          <WatchTrailerButton />
-
-          <button className='flex items-center justify-center gap-md p-md rounded-full bg-neutral-950/60 border border-neutral-900 backdrop-blur-2xl w-full text-sm font-semibold text-neutral-25 cursor-pointer'>
-            See Detail
-          </button>
+          <Button />
+          <Button title={'See Detail'} />
         </div>
       </div>
     </section>

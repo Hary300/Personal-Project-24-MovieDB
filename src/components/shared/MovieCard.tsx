@@ -36,7 +36,7 @@ export default function MovieCard({
   const backdrop_sizes = 'w1280';
   const poster_path = movie.poster_path;
   return (
-    <div className='flex flex-col gap-lg  min-w-45'>
+    <div className='flex flex-col gap-lg  min-w-47'>
       <div className='relative min-h-80'>
         <img
           src={`${base_url}${backdrop_sizes}${poster_path}`}

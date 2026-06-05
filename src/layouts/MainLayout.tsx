@@ -39,9 +39,7 @@ export default function MainLayout({
       />
       <MobileNav show={showMenu} />
       {hero && <Hero />}
-      <main className='container px-xl m-auto py-3xl md:px-7xl xl:px-11xl'>
-        {children}
-      </main>
+      <main className='container w-full m-auto py-3xl'>{children}</main>
       <Footer />
     </div>
   );

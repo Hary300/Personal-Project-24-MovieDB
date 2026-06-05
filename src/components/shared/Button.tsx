@@ -1,4 +1,4 @@
-export default function WatchTrailerButton() {
+export default function Button({ title = 'Watch Trailer' }) {
   const watchTrailerIcon = (
     <svg
       width='18'
@@ -37,8 +37,16 @@ export default function WatchTrailerButton() {
     </svg>
   );
   return (
-    <button className='flex items-center justify-center gap-md p-md rounded-full bg-primary-300 w-full text-sm font-semibold text-neutral-25 cursor-pointer'>
-      What Trailer {watchTrailerIcon}
+    <button
+      className={`flex items-center justify-center gap-md p-md rounded-full ${title === 'See Detail' ? 'bg-neutral-950/60 border border-neutral-900 backdrop-blur-2xl' : 'bg-primary-300'} w-full text-sm font-semibold text-neutral-25 cursor-pointer`}
+    >
+      {title === 'See Detail' || title === `Explore Movie` ? (
+        title
+      ) : (
+        <>
+          {title} {watchTrailerIcon}
+        </>
+      )}
     </button>
   );
 }
