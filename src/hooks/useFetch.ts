@@ -23,7 +23,7 @@ export default function useFetch<T>(IMAGE_BASE_URL: string) {
         }
 
         const resultData = await res.json();
-        setData(resultData.results);
+        setData(resultData);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);

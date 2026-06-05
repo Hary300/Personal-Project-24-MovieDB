@@ -1,0 +1,60 @@
+type Movie = {
+  title: string;
+  vote_average: number;
+  poster_path: string;
+};
+
+type MovieCardProps = {
+  isTrendingNow: boolean;
+  index: number;
+  movie: Movie;
+};
+
+export default function MovieCard({
+  isTrendingNow,
+  index,
+  movie,
+}: MovieCardProps) {
+  const starIcon = (
+    <svg
+      width='17'
+      height='17'
+      viewBox='0 0 17 17'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M7.64299 1.10939C8.03165 0.463572 8.96794 0.46357 9.3566 1.10939L11.2986 4.33639C11.4383 4.5684 11.666 4.73387 11.9298 4.79497L15.599 5.64476C16.3333 5.81483 16.6227 6.7053 16.1285 7.27451L13.6596 10.1187C13.4821 10.3232 13.3951 10.5909 13.4185 10.8607L13.7442 14.6129C13.8093 15.3638 13.0518 15.9142 12.3578 15.6201L8.88989 14.1509C8.64055 14.0453 8.35904 14.0453 8.10971 14.1509L4.64178 15.6201C3.94775 15.9142 3.19026 15.3638 3.25543 14.6129L3.58108 10.8607C3.60449 10.5909 3.5175 10.3232 3.33999 10.1187L0.871051 7.27451C0.376942 6.7053 0.666272 5.81483 1.40059 5.64476L5.06977 4.79497C5.33357 4.73387 5.56132 4.5684 5.70095 4.33639L7.64299 1.10939Z'
+        fill='#E4A802'
+        stroke='#E4A802'
+        strokeWidth='1.25'
+      />
+    </svg>
+  );
+
+  const base_url = 'https://image.tmdb.org/t/p/';
+  const backdrop_sizes = 'w1280';
+  const poster_path = movie.poster_path;
+  return (
+    <div className='flex flex-col gap-lg  min-w-45'>
+      <div className='relative min-h-80'>
+        <img
+          src={`${base_url}${backdrop_sizes}${poster_path}`}
+          alt=''
+          className='rounded-xl size-full object-center object-cover'
+        />
+        {isTrendingNow && (
+          <div className='absolute flex justify-center items-center size-4xl text-sm lg:text-base font-semibold lg:size-6xl rounded-full bg-neutral-950/60 backdrop-blur-2xl top-3 left-3'>
+            {index + 1}
+          </div>
+        )}
+      </div>
+      <div className='text'>
+        <p className='text-lg font-semibold text-neutral-25'>{movie.title}</p>
+        <p className='flex gap-2 items-center text-md font-normal text-neutral-400'>
+          {starIcon} {movie.vote_average.toFixed(1)}/10
+        </p>
+      </div>
+    </div>
+  );
+}

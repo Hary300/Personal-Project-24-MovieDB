@@ -2,7 +2,8 @@
 import useFetch from '../../hooks/useFetch';
 import WatchTrailerButton from '../shared/WatchTrailerButton';
 
-const IMAGE_BASE_URL = 'https://api.themoviedb.org/3/movie/now_playing';
+const randomPage = Math.floor(Math.random() * 10) + 1;
+const IMAGE_BASE_URL = `https://api.themoviedb.org/3/movie/now_playing?page=${randomPage}`;
 
 type Movie = {
   backdrop_path: string;
@@ -10,33 +11,46 @@ type Movie = {
   overview: string;
 };
 
+type DataResult = {
+  results: Movie[];
+};
+
 const number = Math.random();
 
 export default function Hero() {
-  const { data, loading, error } = useFetch<Movie[]>(IMAGE_BASE_URL);
+  const { data, loading, error } = useFetch<DataResult>(IMAGE_BASE_URL);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className='h-100 flex justify-center items-center'>
+        <p className='text-lg md:text-2xl'>Loading...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <div className='h-100 flex justify-center items-center'>
+        <p className='text-lg md:text-2xl'>{error}</p>
+      </div>
+    );
   }
 
   if (!data) return null;
+  const dataResult = data.results;
 
-  const randomIndex = Math.floor(number * data.length);
+  const randomIndex = Math.floor(number * dataResult.length);
 
   const base_url = 'https://image.tmdb.org/t/p/';
   const backdrop_sizez = 'w1280';
-  const backdrop_path = data[randomIndex].backdrop_path;
+  const backdrop_path = dataResult[randomIndex].backdrop_path;
 
   return (
     <section className='container md:h-auto md:relative overflow-hidden'>
       <div className='relative flex h-85 md:h-auto overflow-hidden'>
         <img
           src={`${base_url}${backdrop_sizez}${backdrop_path}`}
-          alt=''
+          alt={`${dataResult[randomIndex].title} image`}
           className='w-full h-full  object-cover object-center'
         />
         <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>
@@ -45,10 +59,10 @@ export default function Hero() {
       <div className='relative -mt-11xl flex flex-col gap-3xl px-4 md:px-0 md:mt-0 md:absolute md:left-7xl md:top-40 lg:top-50 xl:top-65 md:max-w-158 xl:left-11xl'>
         <div className='text flex flex-col gap-sm'>
           <h1 className='text-display-xs lg:text-display-2xl font-bold'>
-            {data[randomIndex].title}
+            {dataResult[randomIndex].title}
           </h1>
           <p className='text-sm lg:text-md font-normal text-neutral-400 leading-7'>
-            {data[randomIndex].overview}
+            {dataResult[randomIndex].overview}
           </p>
         </div>
 
