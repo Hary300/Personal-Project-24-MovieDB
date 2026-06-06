@@ -1,4 +1,3 @@
-// import HeroImage from '../../assets/image 1.png';
 import useFetch from '../../hooks/useFetch';
 import Button from '../shared/Button';
 import ErrorState from '../shared/ErrorState';
@@ -20,7 +19,7 @@ type DataResult = {
 const number = Math.random();
 
 export default function Hero() {
-  const { data, loading, error } = useFetch<DataResult>(IMAGE_BASE_URL);
+  const { data, loading, error } = useFetch<DataResult>(false, IMAGE_BASE_URL);
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState error={error} />;
@@ -33,6 +32,14 @@ export default function Hero() {
   const base_url = 'https://image.tmdb.org/t/p/';
   const backdrop_sizez = 'w1280';
   const backdrop_path = dataResult[randomIndex].backdrop_path;
+
+  function handleWatchTrailer() {
+    console.log('trailer');
+  }
+
+  function handleDetail() {
+    console.log('detail');
+  }
 
   return (
     <section className='container md:h-auto md:relative overflow-hidden'>
@@ -56,8 +63,8 @@ export default function Hero() {
         </div>
 
         <div className='button flex flex-col gap-xl md:flex-row md:max-w-90 lg:max-w-100 xl:max-w-125'>
-          <Button />
-          <Button title={'See Detail'} />
+          <Button onClick={handleWatchTrailer} />
+          <Button title={'See Detail'} onClick={handleDetail} />
         </div>
       </div>
     </section>

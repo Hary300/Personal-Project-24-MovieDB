@@ -1,4 +1,14 @@
-export default function Button({ title = 'Watch Trailer' }) {
+type ButtonProps = {
+  title?: string;
+  loading?: boolean;
+  onClick: () => void;
+};
+
+export default function Button({
+  title = 'Watch Trailer',
+  loading,
+  onClick,
+}: ButtonProps) {
   const watchTrailerIcon = (
     <svg
       width='18'
@@ -38,14 +48,17 @@ export default function Button({ title = 'Watch Trailer' }) {
   );
   return (
     <button
-      className={`flex items-center justify-center gap-md p-md rounded-full transition-transform duration-200 hover:scale-101 active:scale-100 ${title === 'See Detail' ? 'bg-neutral-950/60 border border-neutral-900 backdrop-blur-2xl' : 'bg-primary-300'} w-full text-sm font-semibold text-neutral-25 cursor-pointer`}
+      className={`flex items-center justify-center gap-md p-md rounded-full transition-transform duration-200 hover:scale-101 active:scale-100 ${title === 'Watch Trailer' ? 'bg-primary-300' : 'bg-neutral-950/60 border border-neutral-900 backdrop-blur-2xl'} w-full text-sm font-semibold text-neutral-25 cursor-pointer z-30 `}
+      onClick={onClick}
     >
-      {title === 'See Detail' || title === `Explore Movie` ? (
-        title
-      ) : (
+      {title === 'Watch Trailer' ? (
         <>
           {title} {watchTrailerIcon}
         </>
+      ) : loading ? (
+        'Loading...'
+      ) : (
+        title
       )}
     </button>
   );

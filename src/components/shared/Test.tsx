@@ -2,31 +2,26 @@ import { useEffect, useState } from 'react';
 
 const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 
-const today = new Date().toISOString().split('T')[0];
-
-const NEW_RELEASE_PAGINATION_BASE_URL = `https://api.themoviedb.org/3/discover/movie?sort_by=primary_release_date.desc&primary_release_date.lte=${today}&page=`;
-
 type Movie = {
   id: number;
   poster_path: string;
-  title: string;
-  vote_average: number;
 };
 
-export default function useFetch<T>(
-  isLoadMore: boolean = false,
-  BASE_URL: string = NEW_RELEASE_PAGINATION_BASE_URL
-) {
-  const [data, setData] = useState<T | null>(null);
+type Data = {
+  total_pages: number;
+  results: Movie[];
+};
+
+export default function Test() {
+  const [data, setData] = useState<Data | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState('');
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState<Movie[]>([]);
 
-  const url = isLoadMore ? `${BASE_URL}${page}` : BASE_URL;
-
   useEffect(() => {
-    async function getData(url: string) {
+    const url = `https://api.themoviedb.org/3/movie/top_rated?page=${page}`;
+    async function getData() {
       try {
         setLoading(true);
         const res = await fetch(url, {
@@ -39,7 +34,6 @@ export default function useFetch<T>(
           const err = new Error(`Error: ${res.status}`);
           throw err;
         }
-
         const dataResult = await res.json();
         setData(dataResult);
         if (page === 1) {
@@ -51,21 +45,42 @@ export default function useFetch<T>(
         if (err instanceof Error) {
           setError(err.message);
         } else {
-          setError('Unknown Error');
+          setError('unknown error');
         }
       } finally {
         setLoading(false);
       }
     }
-    getData(url);
-  }, [page, url]);
+    getData();
+  }, [page]);
 
-  return {
-    data,
-    movies,
-    page,
-    setPage,
-    loading,
-    error,
-  };
+  if (loading) {
+    return <p>Loading....</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  if (!data) return null;
+
+  return (
+    <div>
+      <div className='flex'>
+        {movies.map((movie) => (
+          <div key={movie.id}>{movie.poster_path}</div>
+        ))}
+      </div>
+      <button
+        onClick={() => {
+          if (page < data.total_pages) {
+            setPage((prev) => prev + 1);
+          }
+        }}
+        className={`bg-amber-400 p-4 rounded-2xl ${page >= data.total_pages ? 'opacity-0 pointer-events-none' : ''}`}
+      >
+        Next
+      </button>
+    </div>
+  );
 }

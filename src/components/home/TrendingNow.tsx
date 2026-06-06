@@ -19,7 +19,10 @@ type DataResult = {
 const TRENDING_NOW_URL = 'https://api.themoviedb.org/3/movie/popular';
 
 export default function TrendingNow() {
-  const { data, loading, error } = useFetch<DataResult>(TRENDING_NOW_URL);
+  const { data, loading, error } = useFetch<DataResult>(
+    false,
+    TRENDING_NOW_URL
+  );
   const [currentPosition, setCurrentPosition] = useState<number>(0);
   const [viewportWidth, setViewportWidth] = useState<number>(0);
   const viewportRef = useRef<HTMLDivElement>(null);
