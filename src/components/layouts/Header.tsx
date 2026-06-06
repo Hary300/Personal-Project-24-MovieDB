@@ -52,7 +52,7 @@ export default function Header({
   return (
     <>
       <header
-        className={`${showMenu || isStatic ? 'static' : 'fixed'} container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl z-5  ${showMenu ? 'bg-black' : ''} top-0 `}
+        className={`${showMenu || isStatic ? 'static' : 'fixed'} container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl z-5  ${showMenu ? 'bg-black' : ''} top-0 z-30`}
       >
         <div className='flex gap-8xl'>
           <Logo />

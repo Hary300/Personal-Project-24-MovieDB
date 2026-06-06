@@ -26,13 +26,12 @@ export default function NewRelease() {
   if (!data) return null;
 
   const dataResult = data.results;
-  console.log(dataResult);
   return (
     <section className='flex flex-col py-5xl gap-3xl lg:gap-5xl lg:pt-0 lg:pb-8xl px-xl md:px-7xl xl:px-11xl'>
       <h2 className='text-display-xs lg:text-display-md font-bold'>
         New Release
       </h2>
-      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-xl lg:gap-2xl'>
+      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-xl lg:gap-2xl justify-items-center'>
         {dataResult.map(
           (d, i) =>
             d.poster_path && (

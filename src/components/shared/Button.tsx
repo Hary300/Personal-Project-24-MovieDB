@@ -38,7 +38,7 @@ export default function Button({ title = 'Watch Trailer' }) {
   );
   return (
     <button
-      className={`flex items-center justify-center gap-md p-md rounded-full ${title === 'See Detail' ? 'bg-neutral-950/60 border border-neutral-900 backdrop-blur-2xl' : 'bg-primary-300'} w-full text-sm font-semibold text-neutral-25 cursor-pointer`}
+      className={`flex items-center justify-center gap-md p-md rounded-full transition-transform duration-200 hover:scale-101 active:scale-100 ${title === 'See Detail' ? 'bg-neutral-950/60 border border-neutral-900 backdrop-blur-2xl' : 'bg-primary-300'} w-full text-sm font-semibold text-neutral-25 cursor-pointer`}
     >
       {title === 'See Detail' || title === `Explore Movie` ? (
         title
