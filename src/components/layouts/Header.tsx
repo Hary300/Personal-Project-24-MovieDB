@@ -15,6 +15,7 @@ export default function Header({
 }: HeaderProps) {
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef<HTMLDivElement | null>(null);
+  const [isBlur, setIsBlur] = useState(false);
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -28,6 +29,12 @@ export default function Header({
     return () => {
       document.removeEventListener('mousedown', handleClick);
     };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', function () {
+      setIsBlur(window.scrollY > 10);
+    });
   }, []);
 
   const searchIcon = (
@@ -52,7 +59,7 @@ export default function Header({
   return (
     <>
       <header
-        className={`${showMenu || isStatic ? 'static' : 'fixed'} container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl z-5  ${showMenu ? 'bg-black' : ''} top-0 z-30`}
+        className={`${showMenu || isStatic ? 'static' : 'fixed'} container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl ${showMenu ? 'bg-black' : isBlur ? 'backdrop-blur-2xl bg-black/10' : 'bg-transparent'} top-0 z-50 transition-all duration-300`}
       >
         <div className='flex gap-8xl'>
           <Logo />
