@@ -33,13 +33,13 @@ export default function MovieCard({
   );
 
   const base_url = 'https://image.tmdb.org/t/p/';
-  const backdrop_sizes = 'w1280';
+  const poster_sizes = 'w780';
   const poster_path = movie.poster_path;
   return (
     <div className='relative flex flex-col gap-lg shrink-0 w-47 cursor-pointer transition-transform duration-200 hover:scale-102 z-20'>
       <div className='relative min-h-80'>
         <img
-          src={`${base_url}${backdrop_sizes}${poster_path}`}
+          src={`${base_url}${poster_sizes}${poster_path}`}
           alt=''
           className='rounded-xl size-full object-center object-cover'
         />

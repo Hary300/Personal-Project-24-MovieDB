@@ -2,19 +2,14 @@ import { useEffect, useState } from 'react';
 import Hero from '../components/home/Hero';
 import Footer from '../components/layouts/Footer';
 import Header from '../components/layouts/Header';
-import MobileNav from '../components/shared/MobileNav';
+import OffSetMenu from '../components/shared/OffsetMenu';
 
 type MainLayoutProps = {
-  isStatic: boolean;
-  hero: boolean;
+  hasHero: boolean;
   children: React.ReactNode;
 };
 
-export default function MainLayout({
-  isStatic,
-  hero,
-  children,
-}: MainLayoutProps) {
+export default function MainLayout({ hasHero, children }: MainLayoutProps) {
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
@@ -32,14 +27,10 @@ export default function MainLayout({
 
   return (
     <div className='relative container m-auto overflow-hidden'>
-      <Header
-        isStatic={isStatic}
-        showMenu={showMenu}
-        setShowMenu={setShowMenu}
-      />
-      <MobileNav show={showMenu} />
-      {hero && <Hero />}
-      <main className='container w-full m-auto py-3xl'>{children}</main>
+      <Header showMenu={showMenu} setShowMenu={setShowMenu} />
+      <OffSetMenu show={showMenu} />
+      {hasHero && <Hero />}
+      <main className='container w-full m-auto'>{children}</main>
       <Footer />
     </div>
   );

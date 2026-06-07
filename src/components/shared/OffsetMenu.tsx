@@ -4,10 +4,10 @@ type MobileNav = {
   show: boolean;
 };
 
-export default function MobileNav({ show }: MobileNav) {
+export default function OffSetMenu({ show }: MobileNav) {
   return (
     <nav
-      className={`fixed w-full top-7xl z-10 bg-black h-screen ${show ? 'opacity-100' : 'opacity-0 invisible'}`}
+      className={`fixed w-full top-7xl z-10 bg-black h-screen ${show ? 'opacity-100 z-50' : 'opacity-0 invisible'}`}
     >
       <ul className='flex flex-col gap-xl px-4'>
         <li>

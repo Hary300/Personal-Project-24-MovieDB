@@ -1,11 +1,10 @@
-import DetailHero from '../components/details/DetailHero';
+import MovieDetail from '../components/details/MovieDetail';
 import MainLayout from '../layouts/MainLayout';
 
 export default function Detail() {
   return (
-    <MainLayout isStatic={false} hero={false}>
-      <DetailHero />
-      Hello
+    <MainLayout hasHero={false}>
+      <MovieDetail />
     </MainLayout>
   );
 }

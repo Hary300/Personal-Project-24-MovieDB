@@ -4,7 +4,7 @@ import MainLayout from '../layouts/MainLayout';
 
 export default function Home() {
   return (
-    <MainLayout isStatic={false} hero={true}>
+    <MainLayout hasHero={true}>
       <TrendingNow />
       <NewRelease />
     </MainLayout>
