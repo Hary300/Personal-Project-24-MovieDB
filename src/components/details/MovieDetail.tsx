@@ -126,9 +126,6 @@ export default function MovieDetail({ movieId = 335988 }: MovieDetailProps) {
   if (loading) return <LoadingState />;
   if (error) return <ErrorState error={error} />;
   if (!movieDetail || !video || !ageLimit || !cast) return null;
-  console.log('movie detail: ', movieDetail);
-  console.log('age limit: ', ageLimit);
-  console.log('cast: ', cast);
 
   // const YOUTUBE_BASE_URL = `https://www.youtube.com/watch?v=`;
   const base_url = 'https://image.tmdb.org/t/p/';
@@ -137,25 +134,133 @@ export default function MovieDetail({ movieId = 335988 }: MovieDetailProps) {
   const backdrop_path = movieDetail.backdrop_path;
   const poster_path = movieDetail.poster_path;
 
+  const backdrop_image = `${base_url}${backdrop_sizes}${backdrop_path}`;
+  const poster_image = `${base_url}${poster_sizes}${poster_path}`;
+  const title = movieDetail.original_title;
+
+  const options = {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  } as const;
+
+  const date = new Date(movieDetail.release_date).toLocaleDateString(
+    'en-GB',
+    options
+  );
+
+  const calenderIcon = (
+    <svg
+      width='20'
+      height='20'
+      viewBox='0 0 20 20'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M6.66699 1.66667V4.16667'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M13.333 1.66667V4.16667'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M2.91699 7.575H17.0837'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M17.5 7.08334V14.1667C17.5 16.6667 16.25 18.3333 13.3333 18.3333H6.66667C3.75 18.3333 2.5 16.6667 2.5 14.1667V7.08334C2.5 4.58334 3.75 2.91667 6.66667 2.91667H13.3333C16.25 2.91667 17.5 4.58334 17.5 7.08334Z'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M13.0791 11.4167H13.0866'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M13.0791 13.9167H13.0866'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M9.99607 11.4167H10.0036'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M9.99607 13.9167H10.0036'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M6.91209 11.4167H6.91957'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M6.91209 13.9167H6.91957'
+        stroke='#FDFDFD'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  );
+
   return (
     <section>
       <div className='relative flex h-85 md:h-auto overflow-hidden'>
         <img
-          src={`${base_url}${backdrop_sizes}${backdrop_path}`}
+          src={backdrop_image}
           alt=''
           className='w-full h-full  object-cover object-center'
         />
         <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>
       </div>
-      <div className='relative grid grid-cols-2 lg:grid-cols-[16rem_1fr] gap-4 px-xl md:px-7xl xl:px-11xl -mt-29.5 lg:-mt-41'>
+      <div className='relative grid grid-cols-[7.25rem_1fr] md:grid-cols-[10rem_1fr] lg:grid-cols-[16.25rem_1fr] gap-xl md:gap-4xl px-xl md:px-7xl xl:px-11xl -mt-29.5 lg:-mt-41'>
         {/* poster */}
-        <div className='h-42.75 lg:h-full lg:row-span-3 border border-red-500'></div>
+        <div className='lg:h-full md:row-span-2 lg:row-span-3 rounded-xl overflow-hidden'>
+          <img src={poster_image} alt='' />
+        </div>
 
-        {/* judul */}
-        <div className='h-42.75 border border-green-500'></div>
+        {/* title */}
+        <div className='flex flex-col gap-xs md:gap-4xl'>
+          <h2 className='text-xl font-bold lg:text-display-xl '>{title}</h2>
+          <p className='flex items-center text-sm font-normal lg:text-md gap-xs lg:gap-md'>
+            {calenderIcon}
+            {date}
+          </p>
+        </div>
 
         {/* button */}
-        <div className='h-11 col-span-2 lg:col-span-1 border border-amber-600'></div>
+        <div className='h-11 col-span-2  md:col-span-1 border border-amber-600'></div>
 
         {/* stats */}
         <div className='h-30 col-span-2 lg:col-span-1 border border-indigo-500'></div>

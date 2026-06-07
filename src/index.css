@@ -159,7 +159,7 @@
 }
 
 body {
-  @apply font-poppins bg-black text-white;
+  @apply font-poppins bg-black text-neutral-25;
 }
 
 .hamburger-button span {
