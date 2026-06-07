@@ -1,12 +1,12 @@
 type ButtonProps = {
   title?: string;
   loading?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export default function Button({
   title = 'Watch Trailer',
-  loading,
+  loading = false,
   onClick,
 }: ButtonProps) {
   const watchTrailerIcon = (

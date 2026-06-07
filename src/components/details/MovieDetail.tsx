@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ErrorState from '../shared/ErrorState';
 import LoadingState from '../shared/LoadingState';
+import Button from '../shared/Button';
 
 const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 
@@ -21,8 +22,9 @@ type MovieDetail = {
   poster_path: string;
   original_title: string;
   release_date: string;
-  vote_average: string;
-  genre: string;
+  overview: string;
+  vote_average: number;
+  genres: { name: string }[];
 };
 
 type Video = {
@@ -36,8 +38,10 @@ type VideoResponse = {
 };
 
 type Cast = {
+  id: number;
   name: string;
   character: string;
+  profile_path: string;
 };
 
 type CastResponse = {
@@ -54,7 +58,7 @@ type AgeResponse = {
   }[];
 };
 
-export default function MovieDetail({ movieId = 335988 }: MovieDetailProps) {
+export default function MovieDetail({ movieId = 299534 }: MovieDetailProps) {
   const MOVIE_DETAIL_URL = `https://api.themoviedb.org/3/movie/${movieId}`;
   const VIDEO_URL = `https://api.themoviedb.org/3/movie/${movieId}/videos`;
   const AGE_LIMIT_URL = `https://api.themoviedb.org/3/movie/${movieId}/release_dates`;
@@ -66,6 +70,7 @@ export default function MovieDetail({ movieId = 335988 }: MovieDetailProps) {
   const [cast, setCast] = useState<Cast[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [like, setLike] = useState(false);
 
   useEffect(() => {
     async function getData() {
@@ -89,7 +94,9 @@ export default function MovieDetail({ movieId = 335988 }: MovieDetailProps) {
 
         const video =
           videoData?.results.find(
-            (item) => item.type === 'Trailer' && item.name.includes('Official')
+            (item) =>
+              (item.type === 'Trailer' && item.name.includes('Official')) ||
+              item.name.includes('Trailer')
           ) ?? null;
         setVideo(video);
 
@@ -125,18 +132,29 @@ export default function MovieDetail({ movieId = 335988 }: MovieDetailProps) {
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState error={error} />;
-  if (!movieDetail || !video || !ageLimit || !cast) return null;
+  if (!movieDetail || !video || !ageLimit || !cast) {
+    console.log('movie detail: ', movieDetail);
+    console.log('video: ', video);
+    console.log('age Limit: ', ageLimit);
+    console.log('cast: ', cast);
+    return;
+  }
 
   // const YOUTUBE_BASE_URL = `https://www.youtube.com/watch?v=`;
   const base_url = 'https://image.tmdb.org/t/p/';
   const backdrop_sizes = 'w1280';
   const poster_sizes = 'w780';
+  const pofile_sizes = 'w185';
   const backdrop_path = movieDetail.backdrop_path;
   const poster_path = movieDetail.poster_path;
 
   const backdrop_image = `${base_url}${backdrop_sizes}${backdrop_path}`;
   const poster_image = `${base_url}${poster_sizes}${poster_path}`;
   const title = movieDetail.original_title;
+  const rating = movieDetail.vote_average.toFixed(1);
+  const genre = movieDetail.genres[0].name;
+  const overview = movieDetail.overview;
+  const visibleCasts = cast.slice(0, 9);
 
   const options = {
     day: 'numeric',
@@ -234,8 +252,74 @@ export default function MovieDetail({ movieId = 335988 }: MovieDetailProps) {
     </svg>
   );
 
+  const heartIcon = (
+    <svg
+      width='24'
+      height='24'
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M12.62 20.81C12.28 20.93 11.72 20.93 11.38 20.81C8.48 19.82 2 15.69 2 8.69001C2 5.60001 4.49 3.10001 7.56 3.10001C9.38 3.10001 10.99 3.98001 12 5.34001C13.01 3.98001 14.63 3.10001 16.44 3.10001C19.51 3.10001 22 5.60001 22 8.69001C22 15.69 15.52 19.82 12.62 20.81Z'
+        stroke={like ? 'red' : '#FDFDFD'}
+        fill={like ? 'red' : 'none'}
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  );
+
+  const starIcon = (
+    <svg
+      width='17'
+      height='17'
+      viewBox='0 0 17 17'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M7.64299 1.10939C8.03165 0.463572 8.96794 0.46357 9.3566 1.10939L11.2986 4.33639C11.4383 4.5684 11.666 4.73387 11.9298 4.79497L15.599 5.64476C16.3333 5.81483 16.6227 6.7053 16.1285 7.27451L13.6596 10.1187C13.4821 10.3232 13.3951 10.5909 13.4185 10.8607L13.7442 14.6129C13.8093 15.3638 13.0518 15.9142 12.3578 15.6201L8.88989 14.1509C8.64055 14.0453 8.35904 14.0453 8.10971 14.1509L4.64178 15.6201C3.94775 15.9142 3.19026 15.3638 3.25543 14.6129L3.58108 10.8607C3.60449 10.5909 3.5175 10.3232 3.33999 10.1187L0.871051 7.27451C0.376942 6.7053 0.666272 5.81483 1.40059 5.64476L5.06977 4.79497C5.33357 4.73387 5.56132 4.5684 5.70095 4.33639L7.64299 1.10939Z'
+        fill='#E4A802'
+        stroke='#E4A802'
+        strokeWidth='1.25'
+      />
+    </svg>
+  );
+
+  const happyIcon = (
+    <svg
+      width='20'
+      height='20'
+      viewBox='0 0 20 20'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M14.19 0H5.81C2.17 0 0 2.17 0 5.81V14.18C0 17.83 2.17 20 5.81 20H14.18C17.82 20 19.99 17.83 19.99 14.19V5.81C20 2.17 17.83 0 14.19 0ZM6.5 4.38C7.53 4.38 8.38 5.22 8.38 6.26C8.38 7.3 7.54 8.14 6.5 8.14C5.46 8.14 4.62 7.28 4.62 6.25C4.62 5.22 5.47 4.38 6.5 4.38ZM10 17.08C7.31 17.08 5.12 14.89 5.12 12.2C5.12 11.5 5.69 10.92 6.39 10.92H13.59C14.29 10.92 14.86 11.49 14.86 12.2C14.88 14.89 12.69 17.08 10 17.08ZM13.5 8.12C12.47 8.12 11.62 7.28 11.62 6.24C11.62 5.2 12.46 4.36 13.5 4.36C14.54 4.36 15.38 5.2 15.38 6.24C15.38 7.28 14.53 8.12 13.5 8.12Z'
+        fill='#FDFDFD'
+      />
+    </svg>
+  );
+
+  const videoIcon = (
+    <svg
+      width='21'
+      height='18'
+      viewBox='0 0 21 18'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M19.4 2.92C18.99 2.7 18.13 2.47 16.96 3.29L15.49 4.33C15.38 1.22 14.03 0 10.75 0H4.75C1.33 0 0 1.33 0 4.75V12.75C0 15.05 1.25 17.5 4.75 17.5H10.75C14.03 17.5 15.38 16.28 15.49 13.17L16.96 14.21C17.58 14.65 18.12 14.79 18.55 14.79C18.92 14.79 19.21 14.68 19.4 14.58C19.81 14.37 20.5 13.8 20.5 12.37V5.13C20.5 3.7 19.81 3.13 19.4 2.92ZM9.25 8.13C8.22 8.13 7.37 7.29 7.37 6.25C7.37 5.21 8.22 4.37 9.25 4.37C10.28 4.37 11.13 5.21 11.13 6.25C11.13 7.29 10.28 8.13 9.25 8.13Z'
+        fill='#FDFDFD'
+      />
+    </svg>
+  );
+
   return (
-    <section>
+    <section className='md:pb-37.25'>
       <div className='relative flex h-85 md:h-auto overflow-hidden'>
         <img
           src={backdrop_image}
@@ -244,7 +328,7 @@ export default function MovieDetail({ movieId = 335988 }: MovieDetailProps) {
         />
         <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>
       </div>
-      <div className='relative grid grid-cols-[7.25rem_1fr] md:grid-cols-[10rem_1fr] lg:grid-cols-[16.25rem_1fr] gap-xl md:gap-4xl px-xl md:px-7xl xl:px-11xl -mt-29.5 lg:-mt-41'>
+      <div className='relative grid grid-cols-[7.25rem_1fr] md:grid-cols-[10rem_1fr] lg:grid-cols-[18.25rem_1fr] gap-xl md:gap-4xl px-xl md:px-7xl xl:px-11xl -mt-29.5 lg:-mt-41 pb-5xl md:'>
         {/* poster */}
         <div className='lg:h-full md:row-span-2 lg:row-span-3 rounded-xl overflow-hidden'>
           <img src={poster_image} alt='' />
@@ -260,16 +344,69 @@ export default function MovieDetail({ movieId = 335988 }: MovieDetailProps) {
         </div>
 
         {/* button */}
-        <div className='h-11 col-span-2  md:col-span-1 border border-amber-600'></div>
+        <div className='flex gap-xl col-span-2 md:col-span-1 '>
+          <div className='w-full md:max-w-75.25'>
+            <Button />
+          </div>
+          <button
+            className='flex justify-center items-center size-11 border border-neutral-900 backdrop-blur-2xl bg-neutral-950/60 rounded-full cursor-pointer'
+            onClick={() => setLike((prev) => !prev)}
+          >
+            {heartIcon}
+          </button>
+        </div>
 
         {/* stats */}
-        <div className='h-30 col-span-2 lg:col-span-1 border border-indigo-500'></div>
+        <div className='flex gap-xl col-span-2 lg:col-span-1'>
+          <div className='flex w-full flex-col items-center justify-center rounded-2xl gap-md border border-neutral-800 p-xl lg:p-2xl'>
+            {starIcon}
+            <p className='text-xs text-neutral-300 lg:text-md'>Rating</p>
+            <p className='font-semibold text-lg lg:text-xl'>{rating}/10</p>
+          </div>
+          <div className='flex w-full flex-col items-center justify-center rounded-2xl gap-md border border-neutral-800 p-xl lg:p-2xl'>
+            {videoIcon}
+            <p className='text-xs text-neutral-300 lg:text-md'>Genre</p>
+            <p className='font-semibold text-lg lg:text-xl'>{genre}</p>
+          </div>
+          <div className='flex  w-full flex-col items-center justify-center rounded-2xl gap-md border border-neutral-800 p-xl lg:p-2xl'>
+            {happyIcon}
+            <p className='text-center text-xs text-neutral-300 lg:text-md'>
+              Age Limit
+            </p>
+            <p className='font-semibold text-lg lg:text-xl'>{ageLimit}</p>
+          </div>
+        </div>
 
         {/* overview */}
-        <div className='h-45.5 col-span-2 border border-teal-600'></div>
+        <div className='col-span-2 flex flex-col gap-md'>
+          <h3 className='font-bold text-xl lg:text-display-md'>Overview</h3>
+          <p className='text-sm text-neutral-400 lg:text-md'>{overview}</p>
+        </div>
 
         {/* cast */}
-        <div className='h-45.5 col-span-2 border border-blue-500'></div>
+        <div className='col-span-2 flex flex-col gap-md'>
+          <h3 className='font-bold text-xl lg:text-display-md'>Cast & Crew</h3>
+          <ul className='grid grid-cols-1 gap-xl md:grid-cols-3 md:gap-3xl'>
+            {visibleCasts.map((cast) => (
+              <li key={cast.id} className='flex items-center gap-lg md:gap-xl'>
+                <div className='max-w-13.75 md:max-w-17.25 rounded-md overflow-hidden'>
+                  <img
+                    src={`${base_url}${pofile_sizes}${cast.profile_path}`}
+                    alt=''
+                  />
+                </div>
+                <div className='flex flex-col'>
+                  <p className='font-semibold text-sm md:text-md leading-7'>
+                    {cast.name}
+                  </p>
+                  <p className='text-sm md:text-md text-neutral-400'>
+                    {cast.character}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );
