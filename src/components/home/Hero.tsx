@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import Button from '../shared/Button';
 import ErrorState from '../shared/ErrorState';
@@ -6,7 +7,18 @@ import LoadingState from '../shared/LoadingState';
 const randomPage = Math.floor(Math.random() * 10) + 1;
 const IMAGE_BASE_URL = `https://api.themoviedb.org/3/movie/now_playing?page=${randomPage}`;
 
+type Video = {
+  name: string;
+  key: string;
+  type: string;
+};
+
+type VideoResponse = {
+  results: Video[];
+};
+
 type Movie = {
+  id: number;
   backdrop_path: string;
   title: string;
   overview: string;
@@ -20,25 +32,48 @@ const number = Math.random();
 
 export default function Hero() {
   const { data, loading, error } = useFetch<DataResult>(false, IMAGE_BASE_URL);
+  const navigate = useNavigate();
+
+  const dataResult = data?.results || [];
+
+  const safeLength = dataResult.length;
+  const randomIndex = safeLength ? Math.floor(number * safeLength) : 0;
+  const selectedMovie = dataResult[randomIndex];
+  const movieId = selectedMovie?.id;
+
+  const base_url = 'https://image.tmdb.org/t/p/';
+  const backdrop_sizez = 'w1280';
+  const backdrop_path = selectedMovie?.backdrop_path;
+  const VIDEO_URL = movieId
+    ? `https://api.themoviedb.org/3/movie/${movieId}/videos`
+    : null;
+  const { data: movieVideos } = useFetch<VideoResponse | null>(
+    false,
+    VIDEO_URL
+  );
+
+  const video =
+    movieVideos?.results.find(
+      (item) => item.type === 'Trailer' && item.name.includes('Trailer')
+    ) ?? null;
+
+  if (!video) {
+    console.log('no trailer');
+  }
+
+  const videoKey = video?.key;
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState error={error} />;
   if (!data) return null;
 
-  const dataResult = data.results;
-
-  const randomIndex = Math.floor(number * dataResult.length);
-
-  const base_url = 'https://image.tmdb.org/t/p/';
-  const backdrop_sizez = 'w1280';
-  const backdrop_path = dataResult[randomIndex].backdrop_path;
-
-  function handleWatchTrailer() {
-    console.log('trailer');
+  function handleWatchTrailer(videoKey: string) {
+    const YOUTUBE_BASE_URL = `https://www.youtube.com/watch?v=${videoKey}`;
+    window.open(YOUTUBE_BASE_URL, '_blank');
   }
 
-  function handleDetail() {
-    console.log('detail');
+  function handleDetail(movieId: number) {
+    navigate(`/detail/${movieId}`);
   }
 
   return (
@@ -63,8 +98,18 @@ export default function Hero() {
         </div>
 
         <div className='button flex flex-col gap-xl md:flex-row md:max-w-90 lg:max-w-100 xl:max-w-125'>
-          <Button onClick={handleWatchTrailer} />
-          <Button title={'See Detail'} onClick={handleDetail} />
+          {video && (
+            <Button
+              onClick={() => {
+                if (!videoKey) return;
+                handleWatchTrailer(videoKey);
+              }}
+            />
+          )}
+          <Button
+            title={'See Detail'}
+            onClick={() => handleDetail(dataResult[randomIndex].id)}
+          />
         </div>
       </div>
     </section>

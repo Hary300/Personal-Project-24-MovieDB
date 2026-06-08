@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ErrorState from '../shared/ErrorState';
 import LoadingState from '../shared/LoadingState';
 import Button from '../shared/Button';
+import { useParams } from 'react-router-dom';
 
 const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 
@@ -10,10 +11,6 @@ type Option = {
     Authorization: string;
     'Content-Type': string;
   };
-};
-
-type MovieDetailProps = {
-  movieId?: number;
 };
 
 type MovieDetail = {
@@ -58,7 +55,10 @@ type AgeResponse = {
   }[];
 };
 
-export default function MovieDetail({ movieId = 299534 }: MovieDetailProps) {
+// { movieId = 299534 }: MovieDetailProps
+
+export default function MovieDetail() {
+  const { movieId } = useParams();
   const MOVIE_DETAIL_URL = `https://api.themoviedb.org/3/movie/${movieId}`;
   const VIDEO_URL = `https://api.themoviedb.org/3/movie/${movieId}/videos`;
   const AGE_LIMIT_URL = `https://api.themoviedb.org/3/movie/${movieId}/release_dates`;
@@ -98,6 +98,7 @@ export default function MovieDetail({ movieId = 299534 }: MovieDetailProps) {
               (item.type === 'Trailer' && item.name.includes('Official')) ||
               item.name.includes('Trailer')
           ) ?? null;
+        if (!video) console.log('no trailer video');
         setVideo(video);
 
         const usAgeLimit = ageData.results.find(
@@ -132,7 +133,7 @@ export default function MovieDetail({ movieId = 299534 }: MovieDetailProps) {
 
   if (loading) return <LoadingState />;
   if (error) return <ErrorState error={error} />;
-  if (!movieDetail || !video || !ageLimit || !cast) {
+  if (!movieDetail || !ageLimit || !cast) {
     console.log('movie detail: ', movieDetail);
     console.log('video: ', video);
     console.log('age Limit: ', ageLimit);
@@ -140,11 +141,10 @@ export default function MovieDetail({ movieId = 299534 }: MovieDetailProps) {
     return;
   }
 
-  // const YOUTUBE_BASE_URL = `https://www.youtube.com/watch?v=`;
   const base_url = 'https://image.tmdb.org/t/p/';
   const backdrop_sizes = 'w1280';
   const poster_sizes = 'w780';
-  const pofile_sizes = 'w185';
+  const profile_sizes = 'w185';
   const backdrop_path = movieDetail.backdrop_path;
   const poster_path = movieDetail.poster_path;
 
@@ -152,7 +152,7 @@ export default function MovieDetail({ movieId = 299534 }: MovieDetailProps) {
   const poster_image = `${base_url}${poster_sizes}${poster_path}`;
   const title = movieDetail.original_title;
   const rating = movieDetail.vote_average.toFixed(1);
-  const genre = movieDetail.genres[0].name;
+  const genre = movieDetail.genres?.[0]?.name ?? 'Unknown';
   const overview = movieDetail.overview;
   const visibleCasts = cast.slice(0, 9);
 
@@ -320,13 +320,19 @@ export default function MovieDetail({ movieId = 299534 }: MovieDetailProps) {
 
   return (
     <section className='md:pb-37.25'>
-      <div className='relative flex h-85 md:h-auto overflow-hidden'>
-        <img
-          src={backdrop_image}
-          alt=''
-          className='w-full h-full  object-cover object-center'
-        />
-        <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>
+      <div className='relative flex  h-85 md:h-auto overflow-hidden'>
+        {backdrop_path ? (
+          <>
+            <img
+              src={backdrop_image}
+              alt=''
+              className='w-full h-full  object-cover object-center'
+            />
+            <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>
+          </>
+        ) : (
+          <p className='m-auto mt-30 mb-50'>NO IMAGE AVAILABLE</p>
+        )}
       </div>
       <div className='relative grid grid-cols-[7.25rem_1fr] md:grid-cols-[10rem_1fr] lg:grid-cols-[18.25rem_1fr] gap-xl md:gap-4xl px-xl md:px-7xl xl:px-11xl -mt-29.5 lg:-mt-41 pb-5xl md:'>
         {/* poster */}
@@ -389,11 +395,19 @@ export default function MovieDetail({ movieId = 299534 }: MovieDetailProps) {
           <ul className='grid grid-cols-1 gap-xl md:grid-cols-3 md:gap-3xl'>
             {visibleCasts.map((cast) => (
               <li key={cast.id} className='flex items-center gap-lg md:gap-xl'>
-                <div className='max-w-13.75 md:max-w-17.25 rounded-md overflow-hidden'>
-                  <img
-                    src={`${base_url}${pofile_sizes}${cast.profile_path}`}
-                    alt=''
-                  />
+                <div
+                  className={`max-w-13.75 md:max-w-17.25 rounded-md overflow-hidden ${cast.profile_path ? '' : ' border border-neutral-400 h-21 md:h-26 flex justify-center items-center px-4'}`}
+                >
+                  {cast.profile_path ? (
+                    <img
+                      src={`${base_url}${profile_sizes}${cast.profile_path}`}
+                      alt=''
+                    />
+                  ) : (
+                    <span className='h-full flex justify-center items-center text-center text-xs text-neutral-300'>
+                      No Image
+                    </span>
+                  )}
                 </div>
                 <div className='flex flex-col'>
                   <p className='font-semibold text-sm md:text-md leading-7'>

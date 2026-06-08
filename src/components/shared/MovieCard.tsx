@@ -1,7 +1,11 @@
+import { useNavigate } from 'react-router-dom';
+
 type Movie = {
+  id: number;
+  poster_path: string;
+  release_date: string;
   title: string;
   vote_average: number;
-  poster_path: string;
 };
 
 type MovieCardProps = {
@@ -15,6 +19,7 @@ export default function MovieCard({
   index,
   movie,
 }: MovieCardProps) {
+  const navigate = useNavigate();
   const starIcon = (
     <svg
       width='17'
@@ -35,8 +40,26 @@ export default function MovieCard({
   const base_url = 'https://image.tmdb.org/t/p/';
   const poster_sizes = 'w780';
   const poster_path = movie.poster_path;
+
+  const options = {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  } as const;
+
+  const date = new Date(movie.release_date).toLocaleDateString(
+    'en-GB',
+    options
+  );
+
+  function handleClick(movieId: number) {
+    navigate(`/detail/${movieId}`);
+  }
   return (
-    <div className='relative flex flex-col gap-lg shrink-0 w-47 cursor-pointer transition-transform duration-200 hover:scale-102 z-20'>
+    <div
+      className='relative flex flex-col gap-lg shrink-0 w-47 cursor-pointer transition-transform duration-200 hover:scale-102 z-20'
+      onClick={() => handleClick(movie.id)}
+    >
       <div className='relative min-h-80'>
         <img
           src={`${base_url}${poster_sizes}${poster_path}`}
@@ -52,7 +75,13 @@ export default function MovieCard({
       <div className='text'>
         <p className='text-lg font-semibold text-neutral-25'>{movie.title}</p>
         <p className='flex gap-2 items-center text-md font-normal text-neutral-400'>
-          {starIcon} {movie.vote_average.toFixed(1)}/10
+          {isTrendingNow ? (
+            <>
+              {starIcon} {movie.vote_average.toFixed(1)}/10
+            </>
+          ) : (
+            date
+          )}
         </p>
       </div>
     </div>

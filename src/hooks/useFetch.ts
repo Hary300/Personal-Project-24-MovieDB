@@ -2,20 +2,17 @@ import { useEffect, useState } from 'react';
 
 const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 
-const today = new Date().toISOString().split('T')[0];
-
-const NEW_RELEASE_PAGINATION_BASE_URL = `https://api.themoviedb.org/3/discover/movie?sort_by=primary_release_date.desc&primary_release_date.lte=${today}&page=`;
-
 type Movie = {
   id: number;
   poster_path: string;
+  release_date: string;
   title: string;
   vote_average: number;
 };
 
 export default function useFetch<T>(
   isLoadMore: boolean = false,
-  BASE_URL: string = NEW_RELEASE_PAGINATION_BASE_URL
+  BASE_URL: string | null
 ) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,6 +23,7 @@ export default function useFetch<T>(
   const url = isLoadMore ? `${BASE_URL}${page}` : BASE_URL;
 
   useEffect(() => {
+    if (!url) return;
     async function getData(url: string) {
       try {
         setLoading(true);

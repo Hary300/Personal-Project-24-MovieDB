@@ -6,6 +6,7 @@ import Button from '../shared/Button';
 type Movie = {
   id: number;
   poster_path: string;
+  release_date: string;
   title: string;
   vote_average: number;
 };
@@ -15,11 +16,14 @@ type DataResult = {
   results: Movie[];
 };
 
+const today = new Date().toISOString().split('T')[0];
+
+const NEW_RELEASE_PAGINATION_BASE_URL = `https://api.themoviedb.org/3/discover/movie?sort_by=primary_release_date.desc&primary_release_date.lte=${today}&page=`;
+
 export default function NewRelease() {
   const { data, movies, page, setPage, loading, error } =
-    useFetch<DataResult>(true);
+    useFetch<DataResult | null>(true, NEW_RELEASE_PAGINATION_BASE_URL);
 
-  // if (loading) return <LoadingState />;
   if (error) return <ErrorState error={error} />;
 
   function handleLoadMoreClick() {
