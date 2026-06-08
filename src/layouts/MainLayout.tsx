@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Hero from '../components/home/Hero';
 import Footer from '../components/layouts/Footer';
 import Header from '../components/layouts/Header';
 import OffSetMenu from '../components/shared/OffsetMenu';
@@ -26,12 +25,16 @@ export default function MainLayout({ hasHero, children }: MainLayoutProps) {
   }, [showMenu]);
 
   return (
-    <div className='relative container m-auto overflow-hidden'>
+    <>
       <Header showMenu={showMenu} setShowMenu={setShowMenu} />
-      <OffSetMenu show={showMenu} />
-      {hasHero && <Hero />}
-      <main className='container w-full m-auto'>{children}</main>
-      <Footer />
-    </div>
+      <div
+        className={`relative container m-auto overflow-hidden ${hasHero && '-mt-16 md:-mt-24'}`}
+      >
+        <OffSetMenu show={showMenu} />
+        {/* {hasHero && <Hero />} */}
+        <main className='container w-full m-auto'>{children}</main>
+        <Footer />
+      </div>
+    </>
   );
 }

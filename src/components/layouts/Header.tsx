@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Logo from '../shared/Logo';
 import Nav from '../shared/Nav';
+import { useNavigate } from 'react-router-dom';
 
 type HeaderProps = {
   showMenu: boolean;
@@ -11,6 +12,8 @@ export default function Header({ showMenu, setShowMenu }: HeaderProps) {
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef<HTMLDivElement | null>(null);
   const [isBlur, setIsBlur] = useState(false);
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -51,10 +54,15 @@ export default function Header({ showMenu, setShowMenu }: HeaderProps) {
     </svg>
   );
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') {
+      navigate(`/search?q=${query}`);
+    }
+  }
   return (
     <>
       <header
-        className={`fixed container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl ${showMenu ? 'bg-black' : isBlur ? 'backdrop-blur-2xl bg-black/10' : 'bg-transparent'} top-0 z-50 `}
+        className={`sticky container m-auto flex items-center justify-between px-xl h-7xl lg:h-9xl md:py-6xl md:px-7xl xl:px-11xl ${showMenu ? 'bg-black' : isBlur ? 'backdrop-blur-2xl bg-black/10' : 'bg-transparent'} top-0 z-50`}
       >
         <div className='flex gap-8xl'>
           <Logo />
@@ -80,6 +88,9 @@ export default function Header({ showMenu, setShowMenu }: HeaderProps) {
                 type='text'
                 placeholder='Search Movie'
                 className='size-full text-xs py-md pl-12 focus:outline-0'
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
             </div>
           </div>

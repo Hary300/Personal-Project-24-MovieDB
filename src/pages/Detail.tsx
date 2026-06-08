@@ -3,7 +3,7 @@ import MainLayout from '../layouts/MainLayout';
 
 export default function Detail() {
   return (
-    <MainLayout hasHero={false}>
+    <MainLayout hasHero={true}>
       <MovieDetail />
     </MainLayout>
   );

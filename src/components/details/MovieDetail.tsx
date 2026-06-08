@@ -337,13 +337,21 @@ export default function MovieDetail() {
             <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>
           </>
         ) : (
-          <p className='m-auto mt-30 mb-50'>NO IMAGE AVAILABLE</p>
+          <p className='m-auto mt-30 mb-50 text-2xl'>No Image</p>
         )}
       </div>
-      <div className='relative grid grid-cols-[7.25rem_1fr] md:grid-cols-[10rem_1fr] lg:grid-cols-[18.25rem_1fr] gap-xl md:gap-4xl px-xl md:px-7xl xl:px-11xl -mt-29.5 lg:-mt-41 pb-5xl md:'>
+      <div className='relative grid grid-cols-[7.25rem_1fr] md:grid-cols-[10rem_1fr] lg:grid-cols-[18.25rem_1fr] gap-xl md:gap-4xl px-xl md:px-7xl xl:px-11xl -mt-29.5 lg:-mt-41 pb-5xl'>
         {/* poster */}
-        <div className='lg:h-full md:row-span-2 lg:row-span-3 rounded-xl overflow-hidden'>
-          <img src={poster_image} alt='' />
+        <div
+          className={`lg:h-full md:row-span-2 lg:row-span-3 rounded-xl overflow-hidden ${poster_path ? '' : ' border border-neutral-400 h-21 md:h-26 flex justify-center items-center px-4'}`}
+        >
+          {poster_path ? (
+            <img src={poster_image} alt='' />
+          ) : (
+            <span className='h-full flex justify-center items-center text-center text-2xl text-neutral-300'>
+              No Image
+            </span>
+          )}
         </div>
 
         {/* title */}
@@ -385,7 +393,9 @@ export default function MovieDetail() {
           <div className='flex w-full flex-col items-center justify-center rounded-2xl gap-md border border-neutral-800 p-xl lg:p-2xl'>
             {videoIcon}
             <p className='text-xs text-neutral-300 lg:text-md'>Genre</p>
-            <p className='font-semibold text-lg lg:text-xl'>{genre}</p>
+            <p className='font-semibold text-lg lg:text-xl text-center'>
+              {genre}
+            </p>
           </div>
           <div className='flex  w-full flex-col items-center justify-center rounded-2xl gap-md border border-neutral-800 p-xl lg:p-2xl'>
             {happyIcon}

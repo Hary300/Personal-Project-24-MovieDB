@@ -57,10 +57,6 @@ export default function Hero() {
       (item) => item.type === 'Trailer' && item.name.includes('Trailer')
     ) ?? null;
 
-  if (!video) {
-    console.log('no trailer');
-  }
-
   const videoKey = video?.key;
 
   if (loading) return <LoadingState />;
