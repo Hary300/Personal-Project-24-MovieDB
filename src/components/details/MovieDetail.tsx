@@ -121,6 +121,7 @@ export default function MovieDetail() {
         setLoading(false);
       }
     }
+
     async function fetchJson<T>(url: string, option: Option): Promise<T> {
       const res = await fetch(url, option);
       if (!res.ok) {
@@ -155,6 +156,7 @@ export default function MovieDetail() {
   const genre = movieDetail.genres?.[0]?.name ?? 'Unknown';
   const overview = movieDetail.overview;
   const visibleCasts = cast.slice(0, 9);
+  const videoKey = video?.key;
 
   const options = {
     day: 'numeric',
@@ -318,6 +320,10 @@ export default function MovieDetail() {
     </svg>
   );
 
+  function handleWatchTrailer(videoKey: string) {
+    const YOUTUBE_BASE_URL = `https://www.youtube.com/watch?v=${videoKey}`;
+    window.open(YOUTUBE_BASE_URL, '_blank');
+  }
   return (
     <section className='md:pb-37.25'>
       <div className='relative flex  h-85 md:h-auto overflow-hidden'>
@@ -351,9 +357,16 @@ export default function MovieDetail() {
 
         {/* button */}
         <div className='flex gap-xl col-span-2 md:col-span-1 '>
-          <div className='w-full md:max-w-75.25'>
-            <Button />
-          </div>
+          {video && (
+            <div className='w-full md:max-w-75.25'>
+              <Button
+                onClick={() => {
+                  if (!videoKey) return;
+                  handleWatchTrailer(videoKey);
+                }}
+              />
+            </div>
+          )}
           <button
             className='flex justify-center items-center size-11 border border-neutral-900 backdrop-blur-2xl bg-neutral-950/60 rounded-full cursor-pointer'
             onClick={() => setLike((prev) => !prev)}

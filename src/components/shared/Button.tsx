@@ -1,7 +1,7 @@
 type ButtonProps = {
   title?: string;
   loading?: boolean;
-  onClick?: () => void;
+  onClick: () => void;
 };
 
 export default function Button({
