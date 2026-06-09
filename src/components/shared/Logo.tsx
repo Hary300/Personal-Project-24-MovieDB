@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom';
-
 export default function Logo() {
   return (
-    <Link to='/' onClick={() => window.location.reload()}>
+    <a href='/'>
       <div className='flex gap-xs items-center'>
         <svg
           width='24'
@@ -18,6 +16,6 @@ export default function Logo() {
         </svg>
         <span className='text-xl font-semibold'>Movie</span>
       </div>
-    </Link>
+    </a>
   );
 }
