@@ -20,22 +20,6 @@ export default function MovieCard({
   movie,
 }: MovieCardProps) {
   const navigate = useNavigate();
-  const starIcon = (
-    <svg
-      width='17'
-      height='17'
-      viewBox='0 0 17 17'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <path
-        d='M7.64299 1.10939C8.03165 0.463572 8.96794 0.46357 9.3566 1.10939L11.2986 4.33639C11.4383 4.5684 11.666 4.73387 11.9298 4.79497L15.599 5.64476C16.3333 5.81483 16.6227 6.7053 16.1285 7.27451L13.6596 10.1187C13.4821 10.3232 13.3951 10.5909 13.4185 10.8607L13.7442 14.6129C13.8093 15.3638 13.0518 15.9142 12.3578 15.6201L8.88989 14.1509C8.64055 14.0453 8.35904 14.0453 8.10971 14.1509L4.64178 15.6201C3.94775 15.9142 3.19026 15.3638 3.25543 14.6129L3.58108 10.8607C3.60449 10.5909 3.5175 10.3232 3.33999 10.1187L0.871051 7.27451C0.376942 6.7053 0.666272 5.81483 1.40059 5.64476L5.06977 4.79497C5.33357 4.73387 5.56132 4.5684 5.70095 4.33639L7.64299 1.10939Z'
-        fill='#E4A802'
-        stroke='#E4A802'
-        strokeWidth='1.25'
-      />
-    </svg>
-  );
 
   const base_url = 'https://image.tmdb.org/t/p/';
   const poster_sizes = 'w780';
@@ -55,9 +39,112 @@ export default function MovieCard({
   function handleClick(movieId: number) {
     navigate(`/detail/${movieId}`);
   }
+
+  const starIcon = (
+    <svg
+      width='17'
+      height='17'
+      viewBox='0 0 17 17'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M7.64299 1.10939C8.03165 0.463572 8.96794 0.46357 9.3566 1.10939L11.2986 4.33639C11.4383 4.5684 11.666 4.73387 11.9298 4.79497L15.599 5.64476C16.3333 5.81483 16.6227 6.7053 16.1285 7.27451L13.6596 10.1187C13.4821 10.3232 13.3951 10.5909 13.4185 10.8607L13.7442 14.6129C13.8093 15.3638 13.0518 15.9142 12.3578 15.6201L8.88989 14.1509C8.64055 14.0453 8.35904 14.0453 8.10971 14.1509L4.64178 15.6201C3.94775 15.9142 3.19026 15.3638 3.25543 14.6129L3.58108 10.8607C3.60449 10.5909 3.5175 10.3232 3.33999 10.1187L0.871051 7.27451C0.376942 6.7053 0.666272 5.81483 1.40059 5.64476L5.06977 4.79497C5.33357 4.73387 5.56132 4.5684 5.70095 4.33639L7.64299 1.10939Z'
+        fill='#E4A802'
+        stroke='#E4A802'
+        strokeWidth='1.25'
+      />
+    </svg>
+  );
+
+  const calenderIcon = (
+    <svg
+      width='20'
+      height='20'
+      viewBox='0 0 20 20'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M6.66699 1.66667V4.16667'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M13.333 1.66667V4.16667'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M2.91699 7.575H17.0837'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M17.5 7.08334V14.1667C17.5 16.6667 16.25 18.3333 13.3333 18.3333H6.66667C3.75 18.3333 2.5 16.6667 2.5 14.1667V7.08334C2.5 4.58334 3.75 2.91667 6.66667 2.91667H13.3333C16.25 2.91667 17.5 4.58334 17.5 7.08334Z'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeMiterlimit='10'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M13.0791 11.4167H13.0866'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M13.0791 13.9167H13.0866'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M9.99607 11.4167H10.0036'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M9.99607 13.9167H10.0036'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M6.91209 11.4167H6.91957'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M6.91209 13.9167H6.91957'
+        stroke='currentColor'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  );
+
   return (
     <div
-      className='relative flex flex-col gap-lg shrink-0 w-47 cursor-pointer transition-transform duration-200 hover:scale-102 z-20'
+      className='relative flex flex-col gap-lg shrink-0 max-w-47 md:w-47 cursor-pointer transition-transform duration-200 hover:scale-102 z-20'
       onClick={() => handleClick(movie.id)}
     >
       <div className='relative min-h-80'>
@@ -80,7 +167,10 @@ export default function MovieCard({
               {starIcon} {movie.vote_average.toFixed(1)}/10
             </>
           ) : (
-            date
+            <>
+              {calenderIcon}
+              {date}
+            </>
           )}
         </p>
       </div>
