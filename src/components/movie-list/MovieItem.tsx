@@ -35,7 +35,7 @@ export default function MovieItem({ movieData }: MovieItemProps) {
   const [error, setError] = useState('');
 
   const image_base_url = 'https://image.tmdb.org/t/p/';
-  const poster_sizes = 'w780';
+  const poster_sizes = 'w185';
   const poster_path = movieData.poster_path;
   const poster_image = `${image_base_url}${poster_sizes}${poster_path}`;
   const title = movieData.title;

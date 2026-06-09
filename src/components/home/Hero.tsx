@@ -42,7 +42,7 @@ export default function Hero() {
   const movieId = selectedMovie?.id;
 
   const base_url = 'https://image.tmdb.org/t/p/';
-  const backdrop_sizez = 'w1280';
+  const backdrop_sizes = 'w780';
   const backdrop_path = selectedMovie?.backdrop_path;
   const VIDEO_URL = movieId
     ? `https://api.themoviedb.org/3/movie/${movieId}/videos`
@@ -76,7 +76,7 @@ export default function Hero() {
     <section className='container md:h-auto md:relative overflow-hidden'>
       <div className='relative flex h-85 md:h-auto overflow-hidden'>
         <img
-          src={`${base_url}${backdrop_sizez}${backdrop_path}`}
+          src={`${base_url}${backdrop_sizes}${backdrop_path}`}
           alt={`${dataResult[randomIndex].title} image`}
           className='w-full h-full  object-cover object-center'
         />

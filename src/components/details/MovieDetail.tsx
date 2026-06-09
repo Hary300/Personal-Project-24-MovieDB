@@ -144,8 +144,8 @@ export default function MovieDetail() {
   }
 
   const image_base_url = 'https://image.tmdb.org/t/p/';
-  const backdrop_sizes = 'w1280';
-  const poster_sizes = 'w780';
+  const backdrop_sizes = 'w780';
+  const poster_sizes = 'w342';
   const profile_sizes = 'w185';
   const backdrop_path = movieDetail.backdrop_path;
   const poster_path = movieDetail.poster_path;
@@ -314,7 +314,7 @@ export default function MovieDetail() {
             <img
               src={backdrop_image}
               alt=''
-              className='w-full h-full  object-cover object-center'
+              className='w-full h-full object-cover object-center'
             />
             <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>
           </>

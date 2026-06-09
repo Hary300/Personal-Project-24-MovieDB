@@ -22,7 +22,7 @@ export default function MovieCard({
   const navigate = useNavigate();
 
   const base_url = 'https://image.tmdb.org/t/p/';
-  const poster_sizes = 'w780';
+  const poster_sizes = 'w185';
   const poster_path = movie.poster_path;
 
   const options = {
