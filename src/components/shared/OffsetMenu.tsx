@@ -13,9 +13,9 @@ export default function OffSetMenu({ show }: MobileNav) {
         <li>
           <Link to='/'>Home</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to='/favorite'>Favorite</Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

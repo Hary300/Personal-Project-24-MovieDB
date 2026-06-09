@@ -7,9 +7,9 @@ export default function Nav() {
         <li>
           <Link to='/'>Home</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to='/favorite'>Favorite</Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );
