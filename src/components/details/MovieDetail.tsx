@@ -313,8 +313,9 @@ export default function MovieDetail() {
           <>
             <img
               src={backdrop_image}
-              alt=''
+              alt={`${title} image`}
               className='w-full h-full object-cover object-center'
+              loading='lazy'
             />
             <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>
           </>
@@ -328,7 +329,7 @@ export default function MovieDetail() {
           className={`lg:h-full md:row-span-2 lg:row-span-3 rounded-xl overflow-hidden ${poster_path ? '' : ' border border-neutral-400 h-21 md:h-26 flex justify-center items-center px-4'}`}
         >
           {poster_path ? (
-            <img src={poster_image} alt='' />
+            <img src={poster_image} alt={`${title} image`} loading='lazy' />
           ) : (
             <span className='h-full flex justify-center items-center text-center text-2xl text-neutral-300'>
               No Image
@@ -401,7 +402,8 @@ export default function MovieDetail() {
                   {cast.profile_path ? (
                     <img
                       src={`${image_base_url}${profile_sizes}${cast.profile_path}`}
-                      alt=''
+                      alt={`${title} image`}
+                      loading='lazy'
                     />
                   ) : (
                     <span className='h-full flex justify-center items-center text-center text-xs text-neutral-300'>

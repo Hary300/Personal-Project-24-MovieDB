@@ -78,6 +78,7 @@ export default function Hero() {
         <img
           src={`${base_url}${backdrop_sizes}${backdrop_path}`}
           alt={`${dataResult[randomIndex].title} image`}
+          loading='lazy'
           className='w-full h-full  object-cover object-center'
         />
         <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>

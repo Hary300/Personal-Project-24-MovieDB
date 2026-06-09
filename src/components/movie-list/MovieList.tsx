@@ -63,7 +63,7 @@ export default function MovieList() {
   const notFound = (
     <div className='h-100 lg:h-203.5 flex justify-center items-center pb-10'>
       <div className='flex flex-col items-center gap-xl'>
-        <img src={clapperBoard} alt='' />
+        <img src={clapperBoard} alt='clapper board image' loading='lazy' />
         <div>
           <p className='font-semibold text-md'>Data not Found</p>
           <p className='text-sm text-neutral-400'>Try other keywords</p>

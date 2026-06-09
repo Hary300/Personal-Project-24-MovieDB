@@ -24,6 +24,7 @@ export default function MovieCard({
   const base_url = 'https://image.tmdb.org/t/p/';
   const poster_sizes = 'w185';
   const poster_path = movie.poster_path;
+  const title = movie.title;
 
   const options = {
     day: 'numeric',
@@ -150,7 +151,8 @@ export default function MovieCard({
       <div className='relative min-h-80'>
         <img
           src={`${base_url}${poster_sizes}${poster_path}`}
-          alt=''
+          alt={`${title} image`}
+          loading='lazy'
           className='rounded-xl size-full object-center object-cover'
         />
         {isTrendingNow && (

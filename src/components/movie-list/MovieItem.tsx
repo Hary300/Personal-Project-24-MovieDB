@@ -119,7 +119,12 @@ export default function MovieItem({ movieData }: MovieItemProps) {
         className='rounded-xl overflow-hidden lg:row-span-2 transition-transform duration-200 hover:scale-105 z-20 cursor-pointer'
         onClick={() => handleClickMovieDetail(movieId)}
       >
-        <img src={poster_image} alt='' className='h-full' />
+        <img
+          src={poster_image}
+          alt={`${title} image`}
+          loading='lazy'
+          className='h-full'
+        />
       </div>
       <div>
         <h3 className='text-display-xs font-bold'>{title}</h3>
