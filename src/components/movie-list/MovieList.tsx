@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import LoadingState from '../shared/LoadingState';
 import ErrorState from '../shared/ErrorState';
+import MovieItem from './MovieItem';
+import clapperBoard from '../../assets/clapper-board-not-found-image.svg';
 
 const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 
@@ -57,11 +59,25 @@ export default function MovieList() {
   if (!MovieList) return null;
 
   console.log(MovieList);
+
+  const notFound = (
+    <div className='h-100 lg:h-203.5 flex justify-center items-center pb-10'>
+      <div className='flex flex-col items-center gap-xl'>
+        <img src={clapperBoard} alt='' />
+        <div>
+          <p className='font-semibold text-md'>Data not Found</p>
+          <p className='text-sm text-neutral-400'>Try other keywords</p>
+        </div>
+      </div>
+    </div>
+  );
   return (
-    <section>
-      {MovieList.map((movie) => (
-        <div key={movie.id}>{movie.title}</div>
-      ))}
+    <section className='flex flex-col gap-2xl md:gap-3xl px-xl md:px-7xl xl:px-11xl '>
+      {MovieList?.length !== 0
+        ? MovieList.map((movie) => (
+            <MovieItem key={movie.id} movieData={movie} />
+          ))
+        : notFound}
     </section>
   );
 }

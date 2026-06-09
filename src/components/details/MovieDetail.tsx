@@ -3,6 +3,7 @@ import ErrorState from '../shared/ErrorState';
 import LoadingState from '../shared/LoadingState';
 import Button from '../shared/Button';
 import { useParams } from 'react-router-dom';
+import FavButton from '../shared/FavButton';
 
 const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 
@@ -17,7 +18,7 @@ type MovieDetail = {
   id: number;
   backdrop_path: string;
   poster_path: string;
-  original_title: string;
+  title: string;
   release_date: string;
   overview: string;
   vote_average: number;
@@ -142,16 +143,16 @@ export default function MovieDetail() {
     return;
   }
 
-  const base_url = 'https://image.tmdb.org/t/p/';
+  const image_base_url = 'https://image.tmdb.org/t/p/';
   const backdrop_sizes = 'w1280';
   const poster_sizes = 'w780';
   const profile_sizes = 'w185';
   const backdrop_path = movieDetail.backdrop_path;
   const poster_path = movieDetail.poster_path;
 
-  const backdrop_image = `${base_url}${backdrop_sizes}${backdrop_path}`;
-  const poster_image = `${base_url}${poster_sizes}${poster_path}`;
-  const title = movieDetail.original_title;
+  const backdrop_image = `${image_base_url}${backdrop_sizes}${backdrop_path}`;
+  const poster_image = `${image_base_url}${poster_sizes}${poster_path}`;
+  const title = movieDetail.title;
   const rating = movieDetail.vote_average.toFixed(1);
   const genre = movieDetail.genres?.[0]?.name ?? 'Unknown';
   const overview = movieDetail.overview;
@@ -247,25 +248,6 @@ export default function MovieDetail() {
       <path
         d='M6.91209 13.9167H6.91957'
         stroke='#FDFDFD'
-        strokeWidth='1.5'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-      />
-    </svg>
-  );
-
-  const heartIcon = (
-    <svg
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-    >
-      <path
-        d='M12.62 20.81C12.28 20.93 11.72 20.93 11.38 20.81C8.48 19.82 2 15.69 2 8.69001C2 5.60001 4.49 3.10001 7.56 3.10001C9.38 3.10001 10.99 3.98001 12 5.34001C13.01 3.98001 14.63 3.10001 16.44 3.10001C19.51 3.10001 22 5.60001 22 8.69001C22 15.69 15.52 19.82 12.62 20.81Z'
-        stroke={like ? 'red' : '#FDFDFD'}
-        fill={like ? 'red' : 'none'}
         strokeWidth='1.5'
         strokeLinecap='round'
         strokeLinejoin='round'
@@ -375,12 +357,7 @@ export default function MovieDetail() {
               />
             </div>
           )}
-          <button
-            className='flex justify-center items-center size-11 border border-neutral-900 backdrop-blur-2xl bg-neutral-950/60 rounded-full cursor-pointer'
-            onClick={() => setLike((prev) => !prev)}
-          >
-            {heartIcon}
-          </button>
+          <FavButton like={like} setLike={setLike} />
         </div>
 
         {/* stats */}
@@ -423,7 +400,7 @@ export default function MovieDetail() {
                 >
                   {cast.profile_path ? (
                     <img
-                      src={`${base_url}${profile_sizes}${cast.profile_path}`}
+                      src={`${image_base_url}${profile_sizes}${cast.profile_path}`}
                       alt=''
                     />
                   ) : (

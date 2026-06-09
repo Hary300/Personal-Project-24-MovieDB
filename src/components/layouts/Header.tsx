@@ -16,16 +16,16 @@ export default function Header({ showMenu, setShowMenu }: HeaderProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    function handleClick(event: MouseEvent) {
+    function handleClickSearchIcon(event: MouseEvent) {
       const target = event.target as Node;
       if (searchRef.current && !searchRef.current.contains(target)) {
         setShowSearch(false);
       }
     }
 
-    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('mousedown', handleClickSearchIcon);
     return () => {
-      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('mousedown', handleClickSearchIcon);
     };
   }, []);
 
