@@ -314,8 +314,8 @@ export default function MovieDetail() {
             <img
               src={backdrop_image}
               alt={`${title} image`}
-              className='w-full h-full object-cover object-center'
               loading='lazy'
+              className='w-full h-full object-cover object-center'
             />
             <div className='w-full h-55 md:h-full bg-linear-to-b from-black/0 to-black absolute bottom-0'></div>
           </>
