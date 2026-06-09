@@ -158,10 +158,15 @@
   --spacing-11xl: 8.75rem; /* 140px */
 }
 
+html {
+  color-scheme: dark;
+}
+
 body {
   @apply font-poppins bg-black text-neutral-25;
 }
 
 .hamburger-button span {
   @apply w-6 h-0.5 bg-neutral-25 transition-all duration-200 ease-in-out;
+  forced-color-adjust: none;
 }
