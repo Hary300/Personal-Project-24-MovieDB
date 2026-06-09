@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Logo() {
   return (
-    <Link to='/'>
+    <Link to='/' onClick={() => window.location.reload()}>
       <div className='flex gap-xs items-center'>
         <svg
           width='24'
